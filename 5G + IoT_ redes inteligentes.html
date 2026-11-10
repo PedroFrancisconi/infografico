@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5G + IoT: redes inteligentes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF3FF;--surf:#FFFFFF;--surf2:#E1E9FB;--ink:#0C1538;--mute:#4A5680;--line:#C5D1F0;--c1:#0079A8;--c2:#C2185B;--c3:#A86800;--hero:#0C1538;--heroink:#EEF3FF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070C26;--surf:#0F1740;--surf2:#18235A;--ink:#EAF0FF;--mute:#9AA8D6;--line:#26346E;--c1:#3DE1FF;--c2:#FF5FA8;--c3:#FFC24B;--hero:#050922;--heroink:#EAF0FF;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070C26;--surf:#0F1740;--surf2:#18235A;--ink:#EAF0FF;--mute:#9AA8D6;--line:#26346E;--c1:#3DE1FF;--c2:#FF5FA8;--c3:#FFC24B;--hero:#050922;--heroink:#EAF0FF;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "IBM Plex Sans",system-ui,sans-serif;display:flex;justify-content:center}
+.poster{width:100%;max-width:720px;background:var(--bg);overflow:hidden}
+h1,h2,h3{font-family:Unbounded,"Trebuchet MS",sans-serif;margin:0;line-height:1.15}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--c1);outline-offset:2px}
+p{margin:0 0 .8em}
+.hero{background:var(--hero);color:var(--heroink);padding:56px 24px 40px;position:relative;text-align:left;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end}
+.rings{position:absolute;top:36px;right:-70px;width:340px;height:340px}
+.rings i{position:absolute;inset:0;border:2px solid var(--c1);border-radius:50%;opacity:0;animation:ping 4.5s linear infinite}
+.rings i:nth-child(2){animation-delay:1.1s;border-color:var(--c2)}
+.rings i:nth-child(3){animation-delay:2.2s;border-color:var(--c3)}
+.rings i:nth-child(4){animation-delay:3.3s}
+.rings b{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px;border-radius:50%;background:var(--c1);box-shadow:0 0 24px var(--c1)}
+@keyframes ping{0%{transform:scale(.05);opacity:.9}100%{transform:scale(1);opacity:0}}
+.hero h1{font-size:clamp(44px,13vw,84px);font-weight:700;letter-spacing:-.02em;position:relative}
+.hero h1 span{color:var(--c1)}
+.hero p{max-width:34ch;font-size:18px;color:var(--heroink);opacity:.85;position:relative;margin-top:16px}
+.hero .hint{font-size:14px;opacity:.65;margin-top:28px}
+.theme{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));left:20px;background:transparent;border:1px solid var(--line);border-radius:99px;padding:6px 14px;color:var(--heroink);font-size:13px;z-index:2}
+section{padding:48px 22px;border-top:1px solid var(--line)}
+section h2{font-size:clamp(22px,6vw,30px);margin-bottom:12px}
+.lead{color:var(--mute);max-width:60ch}
+.tabs{display:flex;gap:8px;margin:20px 0 12px;flex-wrap:wrap}
+.tab{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-weight:600}
+.tab[aria-selected="true"]{background:var(--c1);color:#031022;border-color:var(--c1)}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:20px}
+.big{font-family:Unbounded,sans-serif;font-size:42px;color:var(--c1);line-height:1}
+.big small{font-size:15px;color:var(--mute);font-family:"IBM Plex Sans",sans-serif;margin-left:6px}
+.dial{margin-top:28px;background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:20px}
+.dial h3{font-size:16px;margin-bottom:4px}
+input[type=range]{width:100%;accent-color:var(--c2);margin:16px 0 4px;height:32px}
+.scale{display:flex;justify-content:space-between;font-size:13px;color:var(--mute)}
+.meter{display:grid;grid-template-columns:90px 1fr;gap:8px 12px;align-items:center;margin-top:16px;font-size:14px}
+.bar{height:12px;background:var(--surf2);border-radius:6px;overflow:hidden}
+.bar>div{height:100%;border-radius:6px;transition:width .5s ease}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 10px}
+.chip{background:var(--surf);border:1px solid var(--line);border-radius:99px;padding:8px 14px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--c2);color:#fff;border-color:var(--c2)}
+.note{min-height:3.2em;color:var(--mute);font-size:15px}
+.switch{display:inline-flex;background:var(--surf2);border-radius:99px;padding:4px;margin:18px 0 8px}
+.switch button{background:none;border:0;padding:8px 22px;border-radius:99px;font-weight:600}
+.switch button[aria-pressed="true"]{background:var(--c1);color:#031022}
+.cmp{display:grid;gap:18px;margin-top:16px}
+.cmp .row b{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.cmp .row b em{font-style:normal;color:var(--c1)}
+.rows{margin-top:22px;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}
+.rows div{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:10px 12px}
+.rows div:nth-child(odd){background:var(--surf)}
+.rows .h{font-weight:600;background:var(--surf2)!important}
+.rows span:first-child{color:var(--mute)}
+.sectors{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.sec{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px 6px;text-align:center;font-size:13px;font-weight:500}
+.sec span{display:block;font-size:26px;margin-bottom:4px}
+.sec[aria-pressed="true"]{background:var(--c3);color:#1a1000;border-color:var(--c3)}
+.acc{display:grid;gap:8px;margin-top:20px}
+details{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:0 16px}
+summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--c2);font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--mute);font-size:15px}
+.loop{display:flex;justify-content:space-between;align-items:center;gap:6px;margin:24px 0 14px}
+.node{flex:1;background:var(--surf);border:2px solid var(--line);border-radius:16px;padding:14px 4px;text-align:center;font-weight:600;font-size:14px;transition:.3s}
+.node span{display:block;font-size:24px}
+.node.on{border-color:var(--c1);background:var(--surf2);transform:translateY(-4px)}
+.arrow{color:var(--mute);font-size:18px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.two .panel{padding:16px;font-size:14px}
+.two h3{font-size:14px;margin-bottom:8px}
+.two ul{margin:0;padding-left:18px;color:var(--mute)}
+@media (max-width:520px){.two{grid-template-columns:1fr}.sectors{grid-template-columns:repeat(2,1fr)}.rows{font-size:13px}}
+.end{background:var(--hero);color:var(--heroink);text-align:left}
+.end p{max-width:52ch;opacity:.9}
+.end .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.end .tags span{border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:13px}
+@media (prefers-reduced-motion:reduce){.rings i{animation:none;opacity:.35;transform:scale(.6)}.rings i:nth-child(2){transform:scale(.8)}.rings i:nth-child(3){transform:scale(1)}.bar>div,.node{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main class="poster">
+
+<header class="hero">
+  <button class="theme" id="theme" type="button">Alternar tema</button>
+  <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></div>
+  <h1>5G<br>+ <span>IoT</span></h1>
+  <p>Como as redes inteligentes estão transformando o mundo, e o que o 5G muda para a internet das coisas.</p>
+  <p class="hint">Role a página e toque nos elementos: tudo aqui responde.</p>
+</header>
+
+<section id="o-que-e">
+  <h2>O que é o 5G e quais são suas principais características</h2>
+  <p class="lead">A quinta geração de redes móveis, padronizada pelo 3GPP (a partir da Release 15) e baseada nos requisitos da ITU (IMT-2020). Foi projetada para conectar pessoas, máquinas e objetos, e não só celulares.</p>
+
+  <div class="tabs" role="tablist" aria-label="Pilares do 5G" id="pillars"></div>
+  <div class="panel" id="pillarPanel" role="tabpanel" aria-live="polite"></div>
+
+  <div class="dial">
+    <h3>Gire o dial de frequência</h3>
+    <div class="note" id="bandNote"></div>
+    <input type="range" id="band" min="0" max="2" step="1" value="1" aria-label="Faixa de frequência">
+    <div class="scale"><span>Baixas</span><span>Médias (3,5 GHz)</span><span>Ondas milimétricas</span></div>
+    <div class="meter">
+      <span>Alcance</span><div class="bar"><div id="bRange" style="background:var(--c1)"></div></div>
+      <span>Velocidade</span><div class="bar"><div id="bSpeed" style="background:var(--c2)"></div></div>
+    </div>
+  </div>
+
+  <div class="chips" id="feat" aria-label="Características"></div>
+  <div class="note" id="featNote">Toque em uma característica para ver o que ela faz.</div>
+</section>
+
+<section id="4g5g">
+  <h2>Diferenças entre 4G e 5G</h2>
+  <p class="lead">Compare as duas gerações. Os números do 5G são teóricos e dependem da faixa, da cobertura e de a rede ser standalone (SA) ou não standalone (NSA, apoiada no núcleo 4G).</p>
+  <div class="switch" role="group" aria-label="Geração">
+    <button type="button" id="g4" aria-pressed="false">4G</button>
+    <button type="button" id="g5" aria-pressed="true">5G</button>
+  </div>
+  <div class="cmp" id="cmp"></div>
+  <div class="rows">
+    <div class="h"><span></span><span>4G (LTE)</span><span>5G</span></div>
+    <div><span>Foco</span><span>Pessoas e banda larga</span><span>Pessoas, máquinas e aplicações críticas</span></div>
+    <div><span>Frequências</span><span>Até cerca de 2,6 GHz</span><span>Baixas, médias e acima de 24 GHz</span></div>
+    <div><span>Arquitetura</span><span>Núcleo tradicional</span><span>Virtualizada, com slicing e edge</span></div>
+    <div><span>Antenas</span><span>MIMO convencional</span><span>Massive MIMO e beamforming</span></div>
+    <div><span>Infraestrutura</span><span>Torres maiores e espaçadas</span><span>Mais antenas, incluindo small cells</span></div>
+    <div><span>Aplicações</span><span>Streaming, redes sociais, apps</span><span>Indústria 4.0, veículos autônomos, IoT massiva</span></div>
+  </div>
+  <p class="note" style="margin-top:14px">Em NSA, vantagens como o slicing e a latência mais baixa não são totalmente entregues.</p>
+</section>
+
+<section id="aplicacoes">
+  <h2>Principais aplicações do 5G na IoT</h2>
+  <p class="lead">Escolha um setor.</p>
+  <div class="sectors" id="sectors"></div>
+  <div class="panel" id="secPanel" style="margin-top:14px" aria-live="polite"></div>
+</section>
+
+<section id="desafios">
+  <h2>Desafios dessa tecnologia</h2>
+  <p class="lead">Abra cada item para ver o que está em jogo.</p>
+  <div class="acc" id="acc"></div>
+</section>
+
+<section id="ia">
+  <h2>Como o 5G se relaciona com a inteligência artificial e a automação</h2>
+  <p class="lead">O 5G leva os dados até onde a IA precisa, e a IA ajuda a tornar a rede mais eficiente. Toque em uma etapa do ciclo.</p>
+  <div class="loop" id="loop"></div>
+  <div class="panel" id="loopPanel" aria-live="polite"></div>
+  <div class="two">
+    <div class="panel"><h3>IA dentro da rede 5G</h3><ul>
+      <li>Otimização automática de tráfego e recursos</li><li>Manutenção preditiva de antenas</li><li>Detecção de anomalias e ataques</li><li>Redução do consumo de energia</li><li>Redes autoconfiguráveis (self-organizing networks)</li></ul></div>
+    <div class="panel"><h3>Automação</h3><ul>
+      <li>Robótica industrial sem cabos</li><li>Veículos e drones autônomos</li><li>Fábricas flexíveis em redes privadas</li><li>Operação remota de máquinas pesadas</li><li>Semáforos e casas que se ajustam sozinhos</li></ul></div>
+  </div>
+</section>
+
+<section class="end">
+  <h2>Conclusão</h2>
+  <p>O 5G é um habilitador: ele não cria sozinho as aplicações, mas remove limitações de velocidade, latência e escala que travavam a IoT.</p>
+  <p>Combinado com IA, edge computing e automação, transforma setores inteiros, e exige atenção a custos, segurança, cobertura e capacitação.</p>
+  <div class="tags"><span>Conectar</span><span>Analisar</span><span>Agir</span></div>
+</section>
+
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const mk=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+
+/* tema */
+$('#theme').onclick=()=>{const r=document.documentElement,d=matchMedia('(prefers-color-scheme: dark)').matches;
+const cur=r.dataset.theme||(d?'dark':'light');r.dataset.theme=cur==='dark'?'light':'dark'};
+
+/* pilares */
+const pillars=[
+ {k:'eMBB',n:'Banda larga móvel aprimorada',big:'10–20',u:'Gbps (pico teórico)',t:'Vídeo em alta resolução, realidade aumentada e câmeras de monitoramento. Na prática, usuários costumam ter centenas de Mbps.'},
+ {k:'URLLC',n:'Comunicação ultraconfiável e de baixa latência',big:'1–10',u:'ms de latência',t:'Resposta quase instantânea e alta confiabilidade para cirurgia remota, veículos autônomos e controle industrial em tempo real.'},
+ {k:'mMTC',n:'Comunicação massiva entre máquinas',big:'1 mi',u:'dispositivos por km²',t:'Redes densas de sensores com baixo consumo. NB-IoT e LTE-M são a base da IoT massiva no 5G.'}];
+pillars.forEach((p,i)=>{const b=mk('button','tab',p.k);b.role='tab';b.type='button';b.onclick=()=>selP(i);$('#pillars').append(b)});
+function selP(i){const p=pillars[i];[...$('#pillars').children].forEach((b,j)=>b.setAttribute('aria-selected',j===i));
+$('#pillarPanel').innerHTML=`<div class="big">${p.big}<small>${p.u}</small></div><h3 style="font-size:16px;margin:12px 0 6px">${p.n}</h3><p style="margin:0;color:var(--mute)">${p.t}</p>`}
+selP(0);
+
+/* dial */
+const bands=[
+ {r:95,s:25,t:'Faixas baixas: maior alcance e boa penetração em prédios, com velocidade mais modesta. Ideais para cobrir áreas rurais.'},
+ {r:60,s:60,t:'Faixas médias, como 3,5 GHz: equilíbrio entre alcance e velocidade. É a faixa mais usada nas cidades.'},
+ {r:15,s:100,t:'Ondas milimétricas (acima de 24 GHz): velocidade altíssima, mas curto alcance. Exigem muitas antenas e small cells.'}];
+function setBand(){const b=bands[$('#band').value];$('#bandNote').textContent=b.t;$('#bRange').style.width=b.r+'%';$('#bSpeed').style.width=b.s+'%'}
+$('#band').oninput=setBand;setBand();
+
+/* características */
+const feats=[
+ ['Alta velocidade','Picos teóricos de 10 a 20 Gbps; na prática, centenas de Mbps.'],
+ ['Baixa latência','De 1 a 10 ms em condições ideais, contra cerca de 30 a 50 ms do 4G.'],
+ ['Alta densidade','Até cerca de 1 milhão de dispositivos por km².'],
+ ['Network slicing','Divide a rede física em redes virtuais independentes, cada uma ajustada a um uso.'],
+ ['Edge computing','Processamento próximo ao usuário, o que reduz atrasos.'],
+ ['Eficiência energética','Permite que sensores durem anos com bateria.'],
+ ['Várias faixas','Baixas (alcance), médias (equilíbrio) e ondas milimétricas (velocidade).'],
+ ['Massive MIMO e beamforming','Antenas que direcionam o sinal para cada usuário.']];
+feats.forEach((f,i)=>{const c=mk('button','chip',f[0]);c.type='button';c.setAttribute('aria-pressed','false');
+c.onclick=()=>{[...$('#feat').children].forEach(x=>x.setAttribute('aria-pressed','false'));c.setAttribute('aria-pressed','true');$('#featNote').textContent=f[1]};$('#feat').append(c)});
+
+/* 4G x 5G */
+const metrics=[
+ {n:'Velocidade de pico',a:['≈ 1 Gbps',5],b:['10–20 Gbps',100]},
+ {n:'Rapidez de resposta (latência)',a:['30–50 ms',12],b:['1–10 ms',90]},
+ {n:'Dispositivos por km²',a:['Dezenas de milhares',6],b:['≈ 1 milhão',100]}];
+function draw(g){$('#g4').setAttribute('aria-pressed',g===4);$('#g5').setAttribute('aria-pressed',g===5);
+const c=$('#cmp');if(!c.children.length){metrics.forEach(m=>{const r=mk('div','row',`<b>${m.n}<em></em></b><div class="bar"><div style="width:0"></div></div>`);c.append(r)})}
+[...c.children].forEach((r,i)=>{const d=g===4?metrics[i].a:metrics[i].b;r.querySelector('em').textContent=d[0];
+const f=r.querySelector('.bar>div');f.style.background=g===4?'var(--mute)':'var(--c1)';requestAnimationFrame(()=>f.style.width=d[1]+'%')})}
+$('#g4').onclick=()=>draw(4);$('#g5').onclick=()=>draw(5);draw(5);
+
+/* setores */
+const secs=[
+ ['🏭','Indústria 4.0','Manutenção preditiva, robôs e AGVs conectados, gêmeos digitais e inspeção de qualidade por câmeras com IA, muitas vezes em redes 5G privadas dentro da fábrica.'],
+ ['🏙️','Cidades inteligentes','Iluminação adaptativa, semáforos inteligentes, monitoramento de tráfego, coleta de lixo, qualidade do ar e segurança por vídeo.'],
+ ['🩺','Saúde','Monitoramento remoto de pacientes, wearables médicos, telemedicina em alta definição e cirurgia assistida à distância.'],
+ ['🌾','Agronegócio','Sensores de solo e clima, irrigação de precisão, drones e máquinas autônomas.'],
+ ['🚗','Transporte','Veículos conectados (V2X), gestão de frotas, logística em tempo real e apoio à condução autônoma.'],
+ ['⚡','Energia','Redes elétricas inteligentes (smart grids) e medição inteligente.'],
+ ['📦','Varejo e logística','Rastreamento de estoque e cargas, lojas autônomas e experiências com realidade aumentada.'],
+ ['⛏️','Mineração e portos','Operação remota e autônoma de equipamentos pesados em ambientes perigosos.'],
+ ['🏠','Casas e edifícios','Automação, segurança e controle de energia.']];
+secs.forEach((s,i)=>{const b=mk('button','sec',`<span>${s[0]}</span>${s[1]}`);b.type='button';b.setAttribute('aria-pressed','false');
+b.onclick=()=>{[...$('#sectors').children].forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');
+$('#secPanel').innerHTML=`<h3 style="font-size:16px;margin-bottom:8px">${s[1]}</h3><p style="margin:0;color:var(--mute)">${s[2]}</p>`};$('#sectors').append(b);if(i===0)b.click()});
+
+/* desafios */
+const ch=[
+ ['Infraestrutura e custo','Exige muito mais antenas, principalmente nas faixas altas, que têm curto alcance. A implantação é cara e a cobertura é desigual, com áreas rurais mais atrasadas.'],
+ ['Dependência do 5G standalone','Os recursos mais avançados (slicing, URLLC) só aparecem plenamente com o núcleo 5G próprio, cuja implantação é gradual.'],
+ ['Segurança e privacidade','Mais dispositivos ampliam a superfície de ataque, e muitos aparelhos IoT têm proteção fraca. Exigem autenticação forte, criptografia e atualizações constantes.'],
+ ['Consumo de energia','Rede e dispositivos podem gastar mais energia, e o crescimento da infraestrutura levanta questões ambientais.'],
+ ['Espectro','É preciso licitar e gerenciar faixas de frequência, com possíveis conflitos com outros serviços.'],
+ ['Interoperabilidade','Integrar fabricantes, protocolos e tecnologias diferentes.'],
+ ['Custo de dispositivos e planos','Nem toda aplicação precisa de 5G. Para telemetria simples, LoRaWAN, NB-IoT ou LTE-M continuam mais econômicos.'],
+ ['Gestão de dados','O volume gerado exige armazenamento, análise e governança, incluindo adequação a leis como a LGPD.'],
+ ['Qualificação profissional','Falta mão de obra especializada para projetar, operar e proteger essas redes.'],
+ ['Percepção pública','Circula desinformação sobre riscos à saúde, o que dificulta a instalação de antenas. As evidências científicas atuais não indicam danos nos níveis de exposição regulamentados.']];
+ch.forEach(c=>$('#acc').append(mk('details','',`<summary>${c[0]}</summary><p>${c[1]}</p>`)));
+
+/* ciclo IA */
+const loop=[
+ ['📡','Sensoriar','Sensores, câmeras e máquinas geram enormes volumes de dados. O 5G transporta tudo em alta velocidade e com baixa latência.'],
+ ['🧠','Analisar','Com edge computing, modelos de IA rodam perto do dispositivo e decidem em milissegundos. A IA distribuída trabalha entre dispositivos, borda e nuvem.'],
+ ['🤖','Agir','A automação executa as decisões no mundo físico: robôs, veículos, drones e máquinas respondem em tempo real.']];
+let cur=0,timer;
+loop.forEach((l,i)=>{if(i)$('#loop').append(mk('span','arrow','›'));const n=mk('button','node',`<span>${l[0]}</span>${l[1]}`);n.type='button';
+n.onclick=()=>{clearInterval(timer);selL(i)};n.dataset.i=i;$('#loop').append(n)});
+function selL(i){cur=i;document.querySelectorAll('.node').forEach(n=>n.classList.toggle('on',+n.dataset.i===i));
+$('#loopPanel').innerHTML=`<h3 style="font-size:16px;margin-bottom:8px">${loop[i][1]}</h3><p style="margin:0;color:var(--mute)">${loop[i][2]}</p>`}
+selL(0);
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>selL((cur+1)%3),3500);
+</script>
+</body>
+</html>
